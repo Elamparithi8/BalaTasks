@@ -1,4 +1,4 @@
-public class Main{
+public class Square{
         public static void main(String[] args) {
             int num = 1;
             int k=4;
