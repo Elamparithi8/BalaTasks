@@ -28,11 +28,42 @@ public class Square{
         }
 
 }
-        //output
-       /* 1 2 3 4 
-        8 7 6 5 
-        9 10 11 12 
-        16 15 14 13*/
+//revised after the session
+public class Square{
+    public static void main(String[] args) {
+        int num = 1;
+        int row_column = 4;
+        int copy_num = 1;
+        int incre_three = 3;
+
+        for(int i=0;i<row_column;i++)
+        {
+            
+            for(int j=0;j<row_column;j++)
+            {
+                if(i%2!=0)
+                {
+                    if(j==0)
+                    {
+                        copy_num = num+incre_three;
+                    }
+                    System.out.print(copy_num+" ");
+                    copy_num--;
+                    num++;
+                }
+                else 
+                {
+                    System.out.print(num + " ");
+                    num++;
+                }
+
+            }
+            System.out.println();
+
+        }
+    }
+
+}
 
 
 
