@@ -1,6 +1,8 @@
-public class ReverseIt{
+public class ReverseIt
+{
 
-        public static void main(String[] args) {
+        public static void main(String[] args) 
+        {
 
            int input = 123;
 
