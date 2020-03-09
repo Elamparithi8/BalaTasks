@@ -1,5 +1,7 @@
-public class AritmeticProgession{
-    public static String removeLastCharacter(String words){
+public class AritmeticProgession
+{
+    public static String removeLastCharacter(String words)
+    {
 
         int size = words.length();
 
@@ -15,7 +17,8 @@ public class AritmeticProgession{
             return string;
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) 
+    {
             int no_of_elements = 5;
 
             int initial_num = 2;
