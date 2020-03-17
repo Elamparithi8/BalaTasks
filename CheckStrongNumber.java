@@ -1,4 +1,4 @@
-public class public class CheckStrongNumber{
+public class CheckStrongNumber{
     public static int factorial(int num){
         int answer = 1;
         while(num>0)
