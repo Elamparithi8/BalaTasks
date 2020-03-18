@@ -2,17 +2,17 @@ import java.util.*;
 public class ReverseNumber{
 
     public static void main(String[] args) {
-        
-	int input =564321789;
+
+        int input =564321789;
 
         int copy_input = input;
 
-        String output = "";
+        int output = 0;
 
         ArrayList<Integer> array_numbers = new ArrayList<>();
 
         while(copy_input>0)
-	{
+        {
             int rem = copy_input%10;
             array_numbers.add(rem);
             copy_input=(int)copy_input/10;
@@ -25,11 +25,12 @@ public class ReverseNumber{
         Object[] filtered_array = array_numbers.toArray();
 
         for(Object j:filtered_array)
-	{
-            output+=j;
+        {
+            output = output*10+(int)j;
         }
         System.out.println(output);
     }
+
 
 }
 
