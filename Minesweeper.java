@@ -17,200 +17,179 @@ public class Minesweeper
             System.out.println();
         }
     }
-    public static void main(String[] args)
+    public static void displayTable(int[][] array)
     {
-        int rows = 5;//how many rows in minesweeper
-        int column = 5;//how many column in minesweeper
-        int mines = 5;//how many mines in minesweeper
-        int win = 0;//to decide the win or loss
-        int[][] minesweeper = new int[rows][column];//forming table using 2d array
+        for(int i=0;i<array.length;i++)
+        {
+            System.out.print(i+"\t");
+            for (int j=0;j<array[i].length;j++)
+            {
+                System.out.print(array[i][j]+"\t");
+
+            }
+            System.out.println();
+            System.out.println();
+        }
+    }
+    public static void setDefaultValues(int[][] arr,int value){
+        for(int i=0;i<arr.length;i++)
+        {
+            for (int j=0;j<arr[i].length;j++)
+            {
+                arr[i][j]=value;
+            }
+        }
+    }
+    public static void setDefaultValues(String[][] arr,String value){
+        for(int i=0;i<arr.length;i++)
+        {
+            for (int j=0;j<arr[i].length;j++)
+            {
+                arr[i][j]=value;
+            }
+        }
+    }
+    public static void setMines(int rows,int column,int mines,int[][] minesweeper){
         for(int i=0;i<mines;i++)
         {
             Random random_bombs = new Random();
-             int row = random_bombs.nextInt(rows);
+            int row = random_bombs.nextInt(rows);
             int cols = random_bombs.nextInt(column);
             if(minesweeper[row][cols]!=-1)
             {
                 minesweeper[row][cols]=-1;//set mines in random place
+            }
+            else if(row<(rows-1) && minesweeper[row][cols]==-1)
+            {
+                if(minesweeper[row+1][cols]!=-1)
+                {
+                    minesweeper[row+1][cols]=-1;
+                }
+                else{
+                    i-=1;
+                }
+            }
+            else if(column<(cols-1) && minesweeper[row][cols]==-1)
+            {
+                if(minesweeper[row][cols]!=-1)
+                {
+                    minesweeper[row][cols+1]=-1;
+                }
+                else{
+                    i-=1;
+                }
             }
             else
             {
                 i-=1;
             }
         }
-        int i=0;
-        int j=0;
-        //compute the number for all mines to the neighbour
-        for(int k=0;k<minesweeper.length;k++)
+    }
+    public static void countFlagLeft(int mines,int flagcount)
+    {
+        System.out.println("Flag left : "+(mines-flagcount));
+    }
+    public static void showBomb(int[][] minesweeper,String[][] minesweeper_display)
+    {
+        for(int i=0;i<minesweeper.length;i++)
         {
-            for (int m=0;m<minesweeper[k].length;m++)
+            for(int j=0;j<minesweeper[i].length;j++)
             {
-                if(minesweeper[k][m]==-1){
-                    i=k;
-                    j=m;
-                     if(i==0 && j==(column-1))
-                     {
-                         if(minesweeper[i][j-1]!=-1){
-                             minesweeper[i][j-1]+=1;
-                         }
-                         if(minesweeper[i+1][j-1]!=-1) {
-                             minesweeper[i + 1][j - 1] += 1;
-                         }
-                         if(minesweeper[i + 1][j]!=-1){
-                             minesweeper[i + 1][j] += 1;
-                         }
-                     }
-                     else if(i==0 && j==0)
-                     {
-                         if(minesweeper[i][j+1]!=-1){
-                             minesweeper[i][j+1]+=1;
-                         }
-                         if(minesweeper[i+1][j]!=-1){
-                             minesweeper[i+1][j]+=1;
-                         }
-                         if(minesweeper[i+1][j+1]!=-1) {
-                             minesweeper[i + 1][j + 1] += 1;
-                         }
-                     }
-                     else if(i==(rows-1) && j==0)
-                     {
-                         if(minesweeper[i-1][j]!=-1) {
-                             minesweeper[i - 1][j] += 1;
-                         }
-                         if(minesweeper[i-1][j+1]!=-1) {
-                             minesweeper[i - 1][j + 1] += 1;
-                         }
-                         if(minesweeper[i][j+1]!=-1) {
-                             minesweeper[i][j + 1] += 1;
-                         }
-                     }
-                     else if(i==(rows-1) && j==(column-1))
-                     {
-                         if(minesweeper[i-1][j-1]!=-1){
-                             minesweeper[i-1][j-1]+=1;
-                         }
-                         if(minesweeper[i-1][j]!=-1){
-                             minesweeper[i-1][j]+=1;
-                         }
-                         if(minesweeper[i][j-1]!=-1){
-                             minesweeper[i][j-1]+=1;
-                         }
-                     }
-                     else if((i>0 && i<(rows-1)) && j==0)
-                     {
-                         if(minesweeper[i-1][j]!=-1){
-                             minesweeper[i-1][j]+=1;
-                         }
-                         if(minesweeper[i-1][j+1]!=-1){
-                             minesweeper[i-1][j+1]+=1;
-                         }
-                         if(minesweeper[i][j+1]!=-1){
-                             minesweeper[i][j+1]+=1;
-                         }
-                         if(minesweeper[i+1][j]!=-1){
-                             minesweeper[i+1][j]+=1;
-                         }
-                         if(minesweeper[i+1][j+1]!=-1){
-                             minesweeper[i+1][j+1]+=1;
-                         }
-                     }
-                     else if((i>0 && i<(rows-1)) && j==(column-1))
-                     {
-                         if(minesweeper[i-1][j-1]!=-1){
-                             minesweeper[i-1][j-1]+=1;
-                         }
-                         if(minesweeper[i-1][j]!=-1){
-                             minesweeper[i-1][j]+=1;
-                         }
-                         if(minesweeper[i][j-1]!=-1){
-                             minesweeper[i][j-1]+=1;
-                         }
-                         if(minesweeper[i+1][j-1]!=-1){
-                             minesweeper[i+1][j-1]+=1;
-                         }
-                         if(minesweeper[i+1][j]!=-1){
-                             minesweeper[i+1][j]+=1;
-                         }
-                     }
-                     else if(i==0 && (j>0 && j<(column-1) ))
-                     {
-                         if(minesweeper[i][j-1]!=-1){
-                             minesweeper[i][j-1]+=1;
-                         }
-                         if(minesweeper[i][j+1]!=-1){
-                             minesweeper[i][j+1]+=1;
-                         }
-                         if(minesweeper[i+1][j-1]!=-1){
-                             minesweeper[i+1][j-1]+=1;
-                         }
-                         if(minesweeper[i+1][j]!=-1){
-                             minesweeper[i+1][j]+=1;
-                         }
-                         if(minesweeper[i+1][j+1]!=-1){
-                             minesweeper[i+1][j+1]+=1;
-                         }
-                     }
-                     else if(i==(rows-1) && (j>0 && j<(column-1)))
-                     {
-                         if(minesweeper[i-1][j-1]!=-1){
-                             minesweeper[i-1][j-1]+=1;
-                         }
-                         if(minesweeper[i-1][j]!=-1){
-                             minesweeper[i-1][j]+=1;
-                         }
-                         if(minesweeper[i-1][j+1]!=-1){
-                             minesweeper[i-1][j+1]+=1;
-                         }
-                         if(minesweeper[i][j-1]!=-1){
-                             minesweeper[i][j-1]+=1;
-                         }
-                         if(minesweeper[i][j+1]!=-1){
-                             minesweeper[i][j+1]+=1;
-                         }
-                     }
-                     else if((i>0 && i<(rows-1)) && (j>0 && j<(column-1))){
-                         if(minesweeper[i-1][j-1]!=-1){
-                             minesweeper[i-1][j-1]+=1;
-                         }
-                         if(minesweeper[i-1][j]!=-1){
-                             minesweeper[i-1][j]+=1;
-                         }
-                         if(minesweeper[i-1][j+1]!=-1){
-                             minesweeper[i-1][j+1]+=1;
-                         }
-                         if(minesweeper[i][j-1]!=-1){
-                             minesweeper[i][j-1]+=1;
-                         }
-                         if(minesweeper[i][j+1]!=-1){
-                             minesweeper[i][j+1]+=1;
-                         }
-                         if(minesweeper[i+1][j-1]!=-1){
-                             minesweeper[i+1][j-1]+=1;
-                         }
-                         if(minesweeper[i+1][j]!=-1){
-                             minesweeper[i+1][j]+=1;
-                         }
-                         if(minesweeper[i+1][j+1]!=-1){
-                             minesweeper[i+1][j+1]+=1;
-                         }
-                     }
+                if(minesweeper[i][j]==-1)
+                {
+                    minesweeper_display[i][j]=""+-1;
                 }
             }
         }
-        int flag_count = 0;//how many flags used by player
-        String[][] minesweeper_display = new String[rows][column];
-        for( i=0;i<minesweeper_display.length;i++)
+    }
+    public static int forCounting(String[][] minesweeper_display,int flag_count,String match)
+    {
+        for(int i=0;i<minesweeper_display.length;i++)
         {
-            for(j=0;j<minesweeper_display[i].length;j++)
+            for (int j=0;j<minesweeper_display[i].length;j++)
             {
-                minesweeper_display[i][j]="?";
+                if(minesweeper_display[i][j].equals(match))
+                {
+                    flag_count++;
+                }
             }
         }
-        for(i=0;i<column;i++)
+        return flag_count;
+    }
+    public static void columnIndex(int column)
+    {
+        for(int i=0;i<column;i++)
         {
             System.out.print("\t"+i);
         }
         System.out.println();
+        System.out.println();
+    }
+    public static void computeNumbers(int[][] minesweeper,int rows,int column)
+    {
+        for(int i=0;i<minesweeper.length;i++)
+        {
+            for(int j=0;j<minesweeper[i].length;j++)
+            {
+                if(minesweeper[i][j]==-1)
+                {
+                    if( i>=0 && j>=0 && i<rows && j<column)
+                    {
+                        if(i-1>=0 && j-1>=0 && minesweeper[i-1][j-1]!=-1)
+                        {
+                            minesweeper[i-1][j-1]+=1;
+                        }
+                        if(i+1<rows && j+1<column && minesweeper[i+1][j+1]!=-1)
+                        {
+                            minesweeper[i+1][j+1]+=1;
+                        }
+                        if(i+1<rows && minesweeper[i+1][j]!=-1)
+                        {
+                            minesweeper[i+1][j]+=1;
+                        }
+                        if(i-1>=0 && minesweeper[i-1][j]!=-1)
+                        {
+                            minesweeper[i-1][j]+=1;
+                        }
+                        if(i+1<rows && j-1>=0 && minesweeper[i+1][j-1]!=-1)
+                        {
+                            minesweeper[i+1][j-1]+=1;
+                        }
+                        if(j-1>=0 && minesweeper[i][j-1]!=-1)
+                        {
+                            minesweeper[i][j-1]+=1;
+                        }
+                        if(j+1<column && minesweeper[i][j+1]!=-1)
+                        {
+                            minesweeper[i][j+1]+=1;
+                        }
+
+                        if(i-1>=0 && j+1<column && minesweeper[i-1][j+1]!=-1)
+                        {
+                            minesweeper[i-1][j+1]+=1;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    public static void startGame()
+    {
+        int rows = 5;//how many rows in minesweeper
+        int column = 5;//how many column in minesweeper
+        int mines = 5;//how many mines in minesweeper
+        int win = 0;//to decide the win or loss
+        int[][] minesweeper = new int[rows][column];//forming table using 2d array
+        //setdefault values
+        setDefaultValues(minesweeper,0);
+        //set mines
+        setMines(rows,column,mines,minesweeper);
+        //compute the number for all mines to the neighbour
+        computeNumbers(minesweeper,rows,column);
+        int flag_count = 0;//how many flags used by player
+        String[][] minesweeper_display = new String[rows][column];
+        setDefaultValues(minesweeper_display,"?");
+        columnIndex(column);
         displayTable(minesweeper_display);//show the minesweeper board
         Scanner scanner = new Scanner(System.in);
         boolean mine = false;
@@ -223,20 +202,13 @@ public class Minesweeper
             int playing_rows = scanner.nextInt();
             System.out.println("Enter the columns");
             int playing_columns = scanner.nextInt();
+            countFlagLeft(mines,flag_count);
             if(mark_flag_or_open.equals("F") && flag_count<mines)
             {
-                    minesweeper_display[playing_rows][playing_columns]=(String) "F";
-                    flag_count=0;
-                for( i=0;i<minesweeper_display.length;i++)
-                {
-                    for ( j=0;j<minesweeper_display[i].length;j++)
-                    {
-                        if(minesweeper_display[i][j]=="F")
-                        {
-                            flag_count++;
-                        }
-                    }
-                }
+                minesweeper_display[playing_rows][playing_columns]=(String) "F";
+                flag_count=0;
+                //for flag count
+                flag_count=forCounting(minesweeper_display,flag_count,"F");
 
             }
             else if(mark_flag_or_open.equals("O"))
@@ -247,59 +219,44 @@ public class Minesweeper
                     System.out.println("Game ends");
                     //show all bomb places
                     mine=true;
-                    for(i=0;i<minesweeper.length;i++)
-                    {
-                        for(j=0;j<minesweeper[i].length;j++)
-                        {
-                            if(minesweeper[i][j]==-1)
-                            {
-                                minesweeper_display[i][j]=""+-1;
-                            }
-                        }
-                    }
+                    //show bomb
+                    showBomb(minesweeper,minesweeper_display);
                 }
                 else if(value_in_box!=-1)
                 {
-                    for( i=0;i<minesweeper_display.length;i++)
+                    for(int i=0;i<minesweeper_display.length;i++)
+                    {
+                        for (int j=0;j<minesweeper_display[i].length;j++)
                         {
-                            for ( j=0;j<minesweeper_display[i].length;j++)
+                            if(minesweeper[i][j]==0)
                             {
-                                if(minesweeper[i][j]==0)
-                                {
-                                    minesweeper_display[i][j]=""+0;
-                                }
-
+                                minesweeper_display[i][j]=""+0;
                             }
+
                         }
-                        minesweeper_display[playing_rows][playing_columns]=""+minesweeper[playing_rows][playing_columns];
+                    }
+                    minesweeper_display[playing_rows][playing_columns]=""+minesweeper[playing_rows][playing_columns];
                 }
             }
             else
             {
                 System.out.println("No flags left");
             }
-            for(i=0;i<column;i++)
-            {
-                System.out.print("\t"+i);
-            }
-            System.out.println();
+            //colum index
+            columnIndex(column);
             displayTable(minesweeper_display);
             win=0;
-            for(i=0;i<minesweeper_display.length;i++)
-            {
-                for (j=0;j<minesweeper_display[i].length;j++)
-                {
-                    if(minesweeper_display[i][j].equals("?"))
-                    {
-                        win++;
-                    }
-                }
-            }
+            win=forCounting(minesweeper_display,win,"?");
             if(win==0)
             {
                 System.out.println("You wins");
                 mine=true;
             }
         }
+    }
+    public static void main(String[] args)
+    {
+        Minesweeper minesweeper = new Minesweeper();
+        minesweeper.startGame();
     }
 }
