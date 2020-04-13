@@ -131,43 +131,40 @@ public class Minesweeper
         {
             for(int j=0;j<minesweeper[i].length;j++)
             {
-                if(minesweeper[i][j]==-1)
-                {
-                    if( i>=0 && j>=0 && i<rows && j<column)
+                if(minesweeper[i][j]==-1) {
+                    int x =i;
+                    int y=j;
+                    x--;
+                    y--;
+                    for(int k=0;k<3;k++)
                     {
-                        if(i-1>=0 && j-1>=0 && minesweeper[i-1][j-1]!=-1)
+                        for(int l=0;l<3;l++)
                         {
-                            minesweeper[i-1][j-1]+=1;
+                            int count = 0;
+                            try{
+                                if(minesweeper[x][y]!=-1)
+                                {
+                                    minesweeper[x][y]+=1;
+                                }
+                                count=2;
+                            }
+                            catch (ArrayIndexOutOfBoundsException e){
+                                count = 1;
+                            }
+                            if(count==1){
+                                y++;
+                                continue;
+                            }
+                            else if(count==0){
+                                if(minesweeper[x][y]!=-1)
+                                {
+                                    minesweeper[x][y]+=1;
+                                }
+                            }
+                            y++;
                         }
-                        if(i+1<rows && j+1<column && minesweeper[i+1][j+1]!=-1)
-                        {
-                            minesweeper[i+1][j+1]+=1;
-                        }
-                        if(i+1<rows && minesweeper[i+1][j]!=-1)
-                        {
-                            minesweeper[i+1][j]+=1;
-                        }
-                        if(i-1>=0 && minesweeper[i-1][j]!=-1)
-                        {
-                            minesweeper[i-1][j]+=1;
-                        }
-                        if(i+1<rows && j-1>=0 && minesweeper[i+1][j-1]!=-1)
-                        {
-                            minesweeper[i+1][j-1]+=1;
-                        }
-                        if(j-1>=0 && minesweeper[i][j-1]!=-1)
-                        {
-                            minesweeper[i][j-1]+=1;
-                        }
-                        if(j+1<column && minesweeper[i][j+1]!=-1)
-                        {
-                            minesweeper[i][j+1]+=1;
-                        }
-
-                        if(i-1>=0 && j+1<column && minesweeper[i-1][j+1]!=-1)
-                        {
-                            minesweeper[i-1][j+1]+=1;
-                        }
+                        x++;
+                        y-=3;
                     }
                 }
             }
