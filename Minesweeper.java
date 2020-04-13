@@ -142,11 +142,7 @@ public class Minesweeper
                         {
                             int count = 0;
                             try{
-                                if(minesweeper[x][y]!=-1)
-                                {
-                                    minesweeper[x][y]+=1;
-                                }
-                                count=2;
+                                    minesweeper[x][y]=minesweeper[x][y];
                             }
                             catch (ArrayIndexOutOfBoundsException e){
                                 count = 1;
@@ -155,11 +151,10 @@ public class Minesweeper
                                 y++;
                                 continue;
                             }
-                            else if(count==0){
-                                if(minesweeper[x][y]!=-1)
-                                {
-                                    minesweeper[x][y]+=1;
-                                }
+                            else if(count==0 && minesweeper[x][y]!=-1){
+                               
+                                minesweeper[x][y]+=1;
+                                
                             }
                             y++;
                         }
@@ -170,8 +165,7 @@ public class Minesweeper
             }
         }
     }
-    public static void startGame()
-    {
+    public static void startGame() throws InterruptedException {
         int rows = 5;//how many rows in minesweeper
         int column = 5;//how many column in minesweeper
         int mines = 5;//how many mines in minesweeper
@@ -183,6 +177,7 @@ public class Minesweeper
         setMines(rows,column,mines,minesweeper);
         //compute the number for all mines to the neighbour
         computeNumbers(minesweeper,rows,column);
+        displayTable(minesweeper);
         int flag_count = 0;//how many flags used by player
         String[][] minesweeper_display = new String[rows][column];
         setDefaultValues(minesweeper_display,"?");
@@ -251,9 +246,8 @@ public class Minesweeper
             }
         }
     }
-    public static void main(String[] args)
-    {
-        Minesweeper minesweeper = new Minesweeper();
-        minesweeper.startGame();
+    public static void main(String[] args){
+        Minesweeper mines = new Minesweeper();
+        mines.startGame();
     }
 }
