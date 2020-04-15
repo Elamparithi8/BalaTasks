@@ -106,6 +106,12 @@ public class SnakeAndLadder
             System.out.println();
         }
     }
+    public static void clearScreen()
+    {
+	System.out.print("\033[H\033[2J");
+	System.out.flush();
+    }
+
     public static void startGame()
     {
         snake_places=getSnake_place();
@@ -126,6 +132,7 @@ public class SnakeAndLadder
             if(answer.equals("yes")) {
                 int dice_num1 = rollDice();
                 player1 += dice_num1;
+		clearScreen();
                 System.out.println("You got !");
                 printDice(dice_num1);
                 if (snake_places.containsKey(player1)) {
@@ -153,7 +160,7 @@ public class SnakeAndLadder
                 do{
                     opponent_dice = false;
                     int dice_num2 = rollDice();
-                    System.out.println("Opponent got !");
+		    System.out.println("Opponent got !");
                     printDice(dice_num2);
                     player2 += dice_num2;
                     if (snake_places.containsKey(player2)) {
