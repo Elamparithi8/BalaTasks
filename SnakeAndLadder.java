@@ -192,16 +192,15 @@ public class SnakeAndLadder
                 System.exit(0);
             }
         }
-        while(board[0][0]==-1)
+        if(board[0][0]==-1)
         {
             System.out.println("You won");
-            break;
         }
-        while(board[0][0]==-2)
+        else if(board[0][0]==-2)
         {
             System.out.println("Opponents won");
-            break;
-        }
+            
+	}
     }
     public static void main(String[] args) throws InterruptedException, IOException {
         startGame();
