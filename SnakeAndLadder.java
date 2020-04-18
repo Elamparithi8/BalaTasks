@@ -38,18 +38,18 @@ public class SnakeAndLadder
 
     public static int[][] getBoard()
     {
-       int[][] board = new int[10][10];
-       int num = 100;
-       int num1 = 81;
-       for(int i=0;i<board.length;i+=2)
-       {
-           for(int j=0;j<board[i].length;j++)
-           {
-               board[i][j]=num;
-               num--;
-           }
-           num-=10;
-       }
+        int[][] board = new int[10][10];
+        int num = 100;
+        int num1 = 81;
+        for(int i=0;i<board.length;i+=2)
+        {
+            for(int j=0;j<board[i].length;j++)
+            {
+                board[i][j]=num;
+                num--;
+            }
+            num-=10;
+        }
         for(int i=1;i<board.length;i+=2)
         {
             for(int j=0;j<board[i].length;j++)
@@ -59,7 +59,7 @@ public class SnakeAndLadder
             }
             num1-=30;
         }
-       return board;
+        return board;
     }
     public static int rollDice()
     {
@@ -106,10 +106,27 @@ public class SnakeAndLadder
             System.out.println();
         }
     }
+    public static void checkSnake(HashMap snake_places,int num)
+    {
+        if (snake_places.containsKey(num)) {
+            System.out.println("Snake bites you");
+            int value = (int) snake_places.get(num);
+            num = value;
+        }
+    }
+
+    public static void checkLadder(HashMap ladder_places,int num)
+    {
+        if (ladder_places.containsKey(num)) {
+            System.out.println("You got a ladder");
+            int value = (int) ladder_places.get(num);
+            num = value;
+        }
+    }
     public static void clearScreen()
     {
-	System.out.print("\033[H\033[2J");
-	System.out.flush();
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
     }
 
     public static void startGame()
@@ -132,19 +149,11 @@ public class SnakeAndLadder
             if(answer.equals("yes")) {
                 int dice_num1 = rollDice();
                 player1 += dice_num1;
-		clearScreen();
+                clearScreen();
                 System.out.println("You got !");
                 printDice(dice_num1);
-                if (snake_places.containsKey(player1)) {
-                    System.out.println("Snake bites you");
-                    int value = (int) snake_places.get(player1);
-                    player1 = value;
-                }
-                if (ladder_places.containsKey(player1)) {
-                    System.out.println("You got a ladder");
-                    int value = (int) ladder_places.get(player1);
-                    player1 = value;
-                }
+                checkSnake(snake_places,player1);
+                checkLadder(snake_places,player1);
                 if (player1 > 100) {
                     player1 -= dice_num1;
                 }
@@ -160,19 +169,11 @@ public class SnakeAndLadder
                 do{
                     opponent_dice = false;
                     int dice_num2 = rollDice();
-		    System.out.println("Opponent got !");
+                    System.out.println("Opponent got !");
                     printDice(dice_num2);
                     player2 += dice_num2;
-                    if (snake_places.containsKey(player2)) {
-                        System.out.println("Snake bites opponents");
-                        int value = (int) snake_places.get(player2);
-                        player2 = value;
-                    }
-                    if (ladder_places.containsKey(player2)) {
-                        System.out.println("Opponents got a ladder");
-                        int value = (int) ladder_places.get(player2);
-                        player2 = value;
-                    }
+                    checkSnake(snake_places,player2);
+                    checkLadder(ladder_places,player2);
                     if (player2 > 100) {
                         player2 -= dice_num2;
                     }
@@ -199,8 +200,7 @@ public class SnakeAndLadder
         else if(board[0][0]==-2)
         {
             System.out.println("Opponents won");
-            
-	}
+        }
     }
     public static void main(String[] args) throws InterruptedException, IOException {
         startGame();
