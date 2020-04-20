@@ -38,28 +38,22 @@ public class SnakeAndLadder
 
     public static int[][] getBoard()
     {
+        int j=0;
         int[][] board = new int[10][10];
         int num = 100;
-        int num1 = 81;
-        for(int i=0;i<board.length;i+=2)
+        int value = 1;
+        for(int i=0;i<board.length;i++)
         {
-            for(int j=0;j<board[i].length;j++)
+            value=value*(-1);
+            for(j=0;j<board[i].length-1;j++)
             {
                 board[i][j]=num;
-                num--;
+                num +=value;
             }
+            board[i][j]=num;
             num-=10;
         }
-        for(int i=1;i<board.length;i+=2)
-        {
-            for(int j=0;j<board[i].length;j++)
-            {
-                board[i][j]=num1;
-                num1++;
-            }
-            num1-=30;
-        }
-        return board;
+                return board;
     }
     public static int rollDice()
     {
@@ -203,6 +197,8 @@ public class SnakeAndLadder
         }
     }
     public static void main(String[] args) throws InterruptedException, IOException {
-        startGame();
+        board = getBoard();
+        showBoard(board);
+        //startGame();
     }
 }
