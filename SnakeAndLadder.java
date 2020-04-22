@@ -1,42 +1,11 @@
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Random;
 import java.util.Scanner;
 
 public class SnakeAndLadder
 {
-    static HashMap ladder_places;
-    static HashMap snake_places;
     static int[][] board;
-
-    public static HashMap getSnake_place()
-    {
-        HashMap<Integer,Integer> snake_places = new HashMap<>();
-        snake_places.put(32,10);
-        snake_places.put(36,6);
-        snake_places.put(48,26);
-        snake_places.put(62,18);
-        snake_places.put(88,24);
-        snake_places.put(95,56);
-        snake_places.put(97,78);
-        return snake_places;
-    }
-
-    public static HashMap getLadder_places()
-    {
-        HashMap<Integer,Integer> ladder_places = new HashMap<>();
-        ladder_places.put(1,38);
-        ladder_places.put(4,14);
-        ladder_places.put(8,30);
-        ladder_places.put(21,42);
-        ladder_places.put(28,76);
-        ladder_places.put(50,67);
-        ladder_places.put(71,92);
-        ladder_places.put(80,99);
-        return ladder_places;
-    }
-
-    public static int[][] getBoard()
+        public static int[][] getBoard()
     {
         int j=0;
         int[][] board = new int[10][10];
@@ -100,22 +69,87 @@ public class SnakeAndLadder
             System.out.println();
         }
     }
-    public static void checkSnake(HashMap snake_places,int num)
+    public static int checkSnake(int player_position)
     {
-        if (snake_places.containsKey(num)) {
-            System.out.println("Snake bites you");
-            int value = (int) snake_places.get(num);
-            num = value;
+        int change_position = 0;
+        switch (player_position)
+        {
+            case 32 :
+                System.out.println("Snake Bites You");
+                change_position = 10;
+                break;
+            case 36 :
+                System.out.println("Snake Bites You");
+                change_position = 6;
+                break;
+            case 48 :
+                System.out.println("Snake Bites You");
+                change_position = 26;
+                break;
+            case 62 :
+                System.out.println("Snake Bites You");
+                change_position = 18;
+                break;
+            case 88 :
+                System.out.println("Snake Bites You");
+                change_position = 24;
+                break;
+            case 95 :
+                System.out.println("Snake Bites You");
+                change_position = 56;
+                break;
+            case 97 :
+                System.out.println("Snake Bites You");
+                change_position = 78;
+                break;
+            default:
+                change_position = player_position;
         }
+        return change_position;
     }
 
-    public static void checkLadder(HashMap ladder_places,int num)
+    public static int checkLadder(int player_position)
     {
-        if (ladder_places.containsKey(num)) {
-            System.out.println("You got a ladder");
-            int value = (int) ladder_places.get(num);
-            num = value;
+        int change_position = 0;
+        switch (player_position)
+        {
+            case 1 :
+                System.out.println("You got a ladder!");
+                change_position = 38;
+                break;
+            case 4 :
+                System.out.println("You got a ladder!");
+                change_position = 14;
+                break;
+            case 8 :
+                System.out.println("You got a ladder!");
+                change_position = 30;
+                break;
+            case 21 :
+                System.out.println("You got a ladder!");
+                change_position = 42;
+                break;
+            case 28 :
+                System.out.println("You got a ladder!");
+                change_position = 76;
+                break;
+            case 50 :
+                System.out.println("You got a ladder!");
+                change_position = 67;
+                break;
+            case 71 :
+                System.out.println("You got a ladder!");
+                change_position = 92;
+                break;
+            case 80 :
+                System.out.println("You got a ladder!");
+                change_position = 99;
+                break;
+            default:
+                change_position = player_position;
+
         }
+        return change_position;
     }
     public static void clearScreen()
     {
@@ -125,8 +159,6 @@ public class SnakeAndLadder
 
     public static void startGame()
     {
-        snake_places=getSnake_place();
-        ladder_places=getLadder_places();
         board = getBoard();
         System.out.print("\t\t\tYou = -1");
         System.out.println();
@@ -146,8 +178,8 @@ public class SnakeAndLadder
                 clearScreen();
                 System.out.println("You got !");
                 printDice(dice_num1);
-                checkSnake(snake_places,player1);
-                checkLadder(snake_places,player1);
+                player1 = checkSnake(player1);
+                player1 = checkLadder(player1);
                 if (player1 > 100) {
                     player1 -= dice_num1;
                 }
@@ -166,8 +198,8 @@ public class SnakeAndLadder
                     System.out.println("Opponent got !");
                     printDice(dice_num2);
                     player2 += dice_num2;
-                    checkSnake(snake_places,player2);
-                    checkLadder(ladder_places,player2);
+                    player2 = checkSnake(player2);
+                    player2 = checkLadder(player2);
                     if (player2 > 100) {
                         player2 -= dice_num2;
                     }
@@ -192,13 +224,12 @@ public class SnakeAndLadder
             System.out.println("You won");
         }
         else if(board[0][0]==-2)
+
         {
             System.out.println("Opponents won");
         }
     }
     public static void main(String[] args) throws InterruptedException, IOException {
-        board = getBoard();
-        showBoard(board);
-        //startGame();
+        startGame();
     }
 }
