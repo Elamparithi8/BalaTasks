@@ -41,7 +41,14 @@ public class WhatsappApi{
     @SuppressWarnings("unchecked")
     public static void sendMessages(LinkedList incoming,String num)
     {
-        incoming = showMessages(num);
+        incoming = new LinkedList<>();
+        try {
+            incoming = showMessages(num);
+        }
+        catch (Exception e)
+        {
+
+        }
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter the mssg do you want to sent");
         String mssg = ">"+scanner.nextLine();
