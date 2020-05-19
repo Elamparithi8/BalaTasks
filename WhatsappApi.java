@@ -1,9 +1,12 @@
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 class Contacts
 {
     static HashMap<Integer,Contacts> contacts_array = new HashMap<>();
     static HashMap<Integer,Integer> chats_array = new HashMap<>();
     static HashMap<Integer,LinkedList> mssgs_array = new HashMap<>();
+    static HashMap<Integer,Status> status_array = new HashMap<>();
     String name;
     String number;
     static int contact_id = 100;
@@ -35,6 +38,36 @@ class Contacts
     public static void main(String[] args) {
 
     }
+}
+class Status
+{
+    static int status_id = 0;
+    ArrayList<String> status_text = new ArrayList<>();
+    int contact_id;
+    public Status(){
+        status_id++;
+    }
+    public int getStatus_id(){
+        return status_id;
+    }
+    public void setContact_id(int id){
+        this.contact_id = id;
+    }
+    public int getContact_id(){
+        return contact_id;
+    }
+    public void setStatus(String st)
+    {
+        status_text.add(st);
+    }
+    public ArrayList getStatus()
+    {
+        return status_text;
+    }
+    public static void main(String[] args) {
+
+    }
+
 }
 class Chats{
     static int chat_id = 0;
@@ -94,6 +127,19 @@ public class WhatsappApi extends Contacts{
             System.out.println(c.getName());
         }
     }
+    public static void showStatusList()
+    {
+        Iterator<Map.Entry<Integer,Status>> itr = status_array.entrySet().iterator();
+
+        while(itr.hasNext())
+        {
+            Map.Entry<Integer, Status> entry = itr.next();
+            Status s3 = entry.getValue();
+            Contacts contacts = contacts_array.get(s3.getContact_id());
+            System.out.println(contacts.getName());
+
+        }
+    }
     public static void showChats()
     {
         Set list_of_contact = chats_array.keySet();
@@ -131,6 +177,58 @@ public class WhatsappApi extends Contacts{
 
 
     }
+    public static void showStatus(int number)
+    {
+       Iterator<Map.Entry<Integer,Status>> itr = status_array.entrySet().iterator();
+
+        while(itr.hasNext())
+        {
+            Map.Entry<Integer, Status> entry = itr.next();
+           Status s3 = entry.getValue();
+           if(s3.getContact_id()==number)
+           {
+               System.out.println(s3.getStatus());
+           }
+        }
+    }
+    public static void replyStatus(int cid,int sid)
+    {
+        Iterator<Map.Entry<Integer,Status>> itr = status_array.entrySet().iterator();
+
+        while(itr.hasNext())
+        {
+            Map.Entry<Integer, Status> entry = itr.next();
+            Status s3 = entry.getValue();
+            if(s3.getContact_id()==cid && entry.getKey()==sid)
+            {
+                Set list_of_contact = chats_array.keySet();
+                Iterator iterator = list_of_contact.iterator();
+                while (iterator.hasNext()) {
+                    int num = (int)iterator.next();
+                    int coid = chats_array.get(num);
+                    if(coid==cid)
+                    {
+                        sendMessages(num);
+                    }
+
+                }
+            }
+        }
+    }
+    public static void createStatus(int cid)
+    {
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm");
+        LocalDateTime now = LocalDateTime.now();
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter the status");
+        String st = scanner.nextLine();
+        Status status = new Status();
+        status.setContact_id(cid);
+        status.setStatus(st);
+        status.setStatus(dtf.format(now));
+        status_array.put(status.getStatus_id(),status);
+        System.out.println("status upload successfully");
+            }
     public static void createChats(int num)
     {
         Chats chats = new Chats();
@@ -181,6 +279,11 @@ public class WhatsappApi extends Contacts{
         contacts_array.remove(num);
         System.out.println("deleted successfully");
     }
+    public static void muteStatus(int num)
+    {
+        contacts_array.remove(num);
+        System.out.println("deleted successfully");
+    }
     @SuppressWarnings("unchecked")
     public static void clearChat(int num)
     {
@@ -211,9 +314,16 @@ public class WhatsappApi extends Contacts{
                     //show list of chats
                     showChats();
                 }
+                else if (split_url[i].equals("status") && i == len - 1) {
+                    //show list of chats
+                    showStatusList();
+                }
                 else if (split_url[i].equals("chats") && mssgs_array.containsKey(Integer.parseInt(split_url[j])) && j == len - 1) {
                     showMessages(Integer.parseInt(split_url[j]));
-                } else if (split_url[i].equals("contacts") && contacts_array.containsKey(Integer.parseInt(split_url[j]))) {
+                }
+                else if (split_url[i].equals("status") && contacts_array.containsKey(Integer.parseInt(split_url[j])) && j == len - 1) {
+                    showStatus(Integer.parseInt(split_url[j]));
+                }else if (split_url[i].equals("contacts") && contacts_array.containsKey(Integer.parseInt(split_url[j]))) {
                     j++;
                     if (j == len - 1 && split_url[j].equals("about")) {
                         j--;
@@ -240,13 +350,29 @@ public class WhatsappApi extends Contacts{
                 {
                     createChats(Integer.parseInt(split_url[j]));
                 }
+                else if(split_url[i].equals("status") && contacts_array.containsKey(Integer.parseInt(split_url[j])) && j == len - 1)
+                {
+                    createStatus(Integer.parseInt(split_url[j]));
+                }
                 else if (split_url[i].equals("chats") && mssgs_array.containsKey(Integer.parseInt(split_url[j])) && j == len - 1) {
                     sendMessages(Integer.parseInt(split_url[j]));
+                }
+                else if (split_url[i].equals("status") && contacts_array.containsKey(Integer.parseInt(split_url[j]))) {
+                    j++;
+                    int sid = Integer.parseInt(split_url[j]);
+                    j++;
+                    if (j == len - 1 && status_array.containsKey(sid) &&  (split_url[j].equals("reply"))){
+                        j-=2;
+                        //status reply
+                        replyStatus(Integer.parseInt(split_url[j]),sid);
+                    }
+
                 }
                 else
                 {
                     System.out.println("enter the wrong URL ");
                 }
+
                 break;
 
             }
@@ -300,8 +426,7 @@ public class WhatsappApi extends Contacts{
         LinkedList<String> mssg_all = new LinkedList<>();
         mssg_all.add(mssggg.getMessage());
         mssgs_array.put(ch1.getChat_id(),mssg_all);
-
-        boolean begin = true;
+                boolean begin = true;
         while(begin!=false) {
             checkingURLs();
             Scanner scanner = new Scanner(System.in);
